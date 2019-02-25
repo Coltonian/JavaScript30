@@ -7,6 +7,57 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+
+const canvas = document.querySelector('#draw');
+const ctx = canvas.getContext('2d'); //This is what you draw on, need to grab from the canvas object, get 2d context
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+ctx.strokeStyle = '#BADA55';//base settings, needs to be a color
+ctx.lineJoin = 'round'; //how should one line connect to the next
+ctx.lineCap = 'round'; //end of the line should it be square off
+ctx.lineWidth = 100;
+ctx.globalCompositeOperation = 'overlay';
+
+let isDrawing = false; //need dummy variables, when click and then let go, only draws when cursor is down.  create a flag
+let lastX = 0; //this is how we will start our line.  We will update these variables as we go
+let lastY = 0;
+let hue = 0;
+let direction = true;
+
+function draw(e) {
+  if(!isDrawing) return; //will stop the function from running when they are not moused down
+  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+  ctx.beginPath();  //ctx is where we do all our drawing on a canvas
+  //start from
+  ctx.moveTo(lastX, lastY);
+  //go to
+  ctx.lineTo(e.offsetX, e.offsetY); 
+  ctx.stroke(); //strokes puts the line on the page
+  [lastX, lastY] = [e.offsetX, e.offsetY];
+  hue++;
+  if(hue >= 360) {
+    hue = 0;
+  }
+
+  if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+    direction = !direction;
+  }
+
+  direction ? ctx.lineWidth++ : ctx.lineWidth--;
+
+}
+
+canvas.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY];  //sets the lastX, lastY
+});
+
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
+
+
 </script>
 
 <style>

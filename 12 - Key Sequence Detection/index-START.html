@@ -7,6 +7,26 @@
 </head>
 <body>
 <script>
+  let pressedKeys = [];
+  const konamiCode = ["ArrowUp", "ArrowDown", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "a", "b"];
+  
+  window.addEventListener('keyup', (e) => {
+    pressedKeys.push(e.key);
+    codeAccept();
+  });
+
+  let konamiCodeIndex = 0;
+  function codeAccept() {
+  pressedKeys.forEach(key => {
+  //have they started to input the code
+  //did they input it all correctly in the right order
+      (key === konamiCode[konamiCodeIndex]) ? konamiCodeIndex++ : konamiCodeIndex = 0;
+      if(konamiCodeIndex >= konamiCode.length) cornify_add();
+    });
+  }
+  
+
+
 </script>
 </body>
 </html>

@@ -21,14 +21,15 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-    :root {
-      --base: #3577F2;
+    /*root is the highest in the hierarchy in css*/
+    :root { 
+      --base: #3577F2;  /*these are the defaults*/
       --spacing: 10px;
       --blur: 1px;
     }
 
     img {
-      padding: var(--spacing);
+      padding: var(--spacing);  /*standard variables in css, so it's backwards compatible use var(-- )*/
       background: var(--base);
       filter: blur(var(--blur));
     }
@@ -63,7 +64,7 @@
     const imageInputs = document.querySelectorAll('.controls input');
 
     function handleUpdate() {
-      const suffix = this.dataset.sizing || '';
+      const suffix = this.dataset.sizing || ''; //dataset is the object that contains all attributes with the 'data-XXX' name
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
       
     }

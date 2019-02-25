@@ -96,6 +96,31 @@
   </div>
 
 <script>
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]'); //ID all checkbox elements
+
+checkboxes.forEach(checkbox => {checkbox.addEventListener('click', handleCheck)}); //add event listener to checkboxes
+
+let lastChecked; //initialize lastchecked that will get set every time handleCheck runs
+
+function handleCheck(e) {
+  let toggleCheck = false;
+  if(e.shiftKey && this.checked) { //Confirm if checked and shiftkey then we can check other boxes as needed
+    checkboxes.forEach(checkbox => {
+      console.log(checkbox);
+      if(checkbox === this || checkbox === lastChecked) {
+        toggleCheck = !toggleCheck;
+        console.log(toggleCheck);
+      }
+      if(toggleCheck) {
+        checkbox.checked = true;
+      }
+    });
+  }
+
+  lastChecked = this;
+}
+
+
 </script>
 </body>
 </html>
