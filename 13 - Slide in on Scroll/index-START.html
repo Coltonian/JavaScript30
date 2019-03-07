@@ -43,7 +43,7 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
+    function debounce(func, wait = 20, immediate = true) { //we will only run this function at most X seconds
       var timeout;
       return function() {
         var context = this, args = arguments;
@@ -56,6 +56,25 @@
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
       };
+    }
+
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    window.addEventListener('scroll', debounce(checkSlide));  
+    //scroll event count is TOO high for performance, need to debounce
+
+    function checkSlide(e) {
+      //check if image will be visible
+      sliderImages.forEach(sliderImage => {
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;  //ScrollY gives me how far my top is scrolled
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;  //offset top gives me top of image from top of page
+        
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+
+        isHalfShown && isNotScrolledPast ? sliderImage.classList.add('active') : sliderImage.classList.remove('active');
+      });
+      //apply to new class if visible
     }
 
   </script>
