@@ -58,25 +58,25 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+ window.addEventListener('keydown', playSound);
+ window.addEventListener('keyup', removeEffect);
 
-window.addEventListener('keydown', function(e) {  //find the event and see what is part of the event object
-  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);  //find an audio event that corresponds to the data-key
-  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+ function playSound(e) {
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  if(!audio) return;
+  audio.currentTime = 0; //resets the sound when a key is played
+  audio.play();
   key.classList.add('playing');
-  if(!audio) return;  //exits out of the function if there is no audio element
-  audio.currentTime = 0; //rewinds to the start
-  audio.play();  //you can play a sound element
-});
+ }
 
+ function removeEffect(e) {
+  const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  key.classList.remove('playing'); 
+ }
 
-function removeTransition(e) {  //There are many transitions, console log the event and find property name for longest transition
-  if(e.propertyName !== "transform") return; //skip if not transform
-  this.classList.remove('playing');  //remove the transition of playing fade out
-}
-
-const keys = document.querySelectorAll('.key');
-keys.forEach(key => {key.addEventListener('transitionend', removeTransition)});
-
+ 
+  
 
 </script>
 

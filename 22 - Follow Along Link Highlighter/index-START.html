@@ -27,6 +27,29 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+
+    const triggers = Array.from(document.querySelectorAll('a')); //get all the links on the page
+    const highlight = document.createElement('span'); //create the highlight span element
+    highlight.classList.add('highlight'); //add the highlight class to the span
+    document.body.append(highlight); //add the span onto the body of the document
+
+    function highlightLink() {
+      const linkCoords = this.getBoundingClientRect(); //Gets the coordinates of the bounding rectangle for the element
+      console.log(linkCoords);
+      const coords = {
+        width: `${linkCoords.width}px`,
+        height: `${linkCoords.height}px`,
+        top: linkCoords.top + window.scrollY,
+        left: linkCoords.left + window.scrollX,
+      }
+
+      highlight.style.width = `${coords.width}`;
+      highlight.style.height = `${coords.height}`;
+      highlight.style.transform = `translate(${coords.left}px,${coords.top}px)`;
+    }
+
+    triggers.forEach(trigger => trigger.addEventListener('mouseenter', highlightLink));
+
   </script>
 </body>
 </html>
